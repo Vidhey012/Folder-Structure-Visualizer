@@ -1,0 +1,53 @@
+.swal2-popup {
+    border-radius: 20px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    background-color: white;
+    background-image: url('..\\graphics\\popup-bg.png');
+    background-position: center;
+    background-size: cover;
+    color: black;
+    box-shadow: 0 0 0 0.4rem rgba(38, 143, 255, 0.25);
+}
+
+.swal2-image {
+    border-radius: 20px !important;
+}
+
+.swal2-confirm {
+    border-radius: 30px !important;
+    padding: 10px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    background-color: #007bffe8;
+    color: white;
+}
+
+.swal2-confirm:hover {
+    background-color:#007bff !important;    
+    border: 2px solid #007bff !important;
+}
+
+.swal2-cancel {
+    border-radius: 30px !important;
+    padding: 10px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    background-color: #f78d58d1;
+    color: white;
+}
+
+.swal2-cancel:hover {
+    background-color:#f78d58 !important;    
+    border: 2px solid #f78d58 !important;
+}
+
+.swal2-backdrop-show {
+    background: rgba(157, 195, 237, 0.345) !important;
+}
+
+.no-border{
+    border: 0;
+}
