@@ -26,24 +26,85 @@ function generateTreeViewHTML(structure, prefix = '', path = '') {
 
   entries.forEach(([name, content], index) => {
     const isLast = index === entries.length - 1;
-    const connector = isLast ? ' &nbsp;└── ' : ' &nbsp;├── ';
+    const connector = isLast ? ' &nbsp;&nbsp;&nbsp;└── ' : ' &nbsp;&nbsp;&nbsp;├── ';
     const icon = content === null ? 
       `<i class="fas fa-file file-icon"></i>` : 
       `<i class="fas fa-folder folder-icon"></i>`; 
 
     const completePath = path ? `${path}/${name}` : name;
+
+    const addButton = content !== null 
+      ? `<i class="fas fa-plus-circle add-icon" onclick="addItem('${completePath}')"></i>` 
+      : '';
+
     const deleteButton = `<i class="fas fa-times-circle delete-icon" onclick="deleteItem('${completePath}')"></i>`; 
 
-    html += `${prefix}${connector}${icon}&nbsp;${name}&nbsp;${deleteButton}<br>`;
+    html += `${prefix}${connector}${addButton}&nbsp;${icon}&nbsp;${name}&nbsp;${deleteButton}<br>`;
 
     // Recursively generate child tree view if folder
     if (content !== null) {
-      const childPrefix = prefix + (isLast ? '  &nbsp;  ' : '&nbsp;│   ');
+      const childPrefix = prefix + (isLast ? '&nbsp;&nbsp;&nbsp;    ' : '&nbsp;&nbsp;&nbsp;│   ');
       html += generateTreeViewHTML(content, childPrefix, completePath);
     }
   });
 
   return html;
+}
+
+// Add new item (file or folder)
+function addItem(parentPath) {
+  Swal.fire({
+    title: 'Add File 📁 / Folder 🗃️',
+    input: 'text',
+    inputPlaceholder: 'Enter file / folder name',
+    showCancelButton: true,
+    confirmButtonText: 'Add',
+    cancelButtonText: 'Cancel',
+    preConfirm: (value) => {
+      if (!value.trim()) {
+        Swal.showValidationMessage('Name cannot be empty');
+        return false;
+      }
+      return value;
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      const newItem = result.value.trim();
+      const isFile = newItem.includes('.');
+      const parts = parentPath.split('/');
+      let current = folderStructure;
+
+      // Traverse to the target folder
+      parts.forEach((part) => {
+        current = current[part];
+      });
+
+      if (!current[newItem]) {
+        current[newItem] = isFile ? null : {}; 
+        saveHistory(); 
+        renderFolderTree();
+        Swal.fire({
+          iconHtml: '<img src="assets\\graphics\\add.gif" style="height:100%; border-radius:50%;">',
+          title: `${isFile ? 'File' : 'Folder'} added successfully! ✅`,
+          showConfirmButton: false,
+          customClass: {
+            icon: 'no-border'
+          }
+        });
+        // Swal.fire('Success', `${isFile ? 'File' : 'Folder'} added successfully!`, 'success');
+      } else {
+        Swal.fire({
+          iconHtml: '<img src="assets\\graphics\\add.gif" style="height:100%; border-radius:50%;">',
+          title: `${isFile ? 'File' : 'Folder'} already exists! ⚠️`,
+          showConfirmButton: false,
+          customClass: {
+            icon: 'no-border'
+          }
+        });
+        // Swal.fire('Error', 'Item with the same name already exists!', 'error');
+      }
+    }
+  });
 }
 
 // Deletes an item from the folder structure

@@ -77,6 +77,15 @@ h1 {
     word-wrap: break-word;
 }
 
+.add-icon {
+    cursor: pointer;
+  }
+  
+  .add-icon:hover {
+    color: rgb(37, 156, 37);
+  }
+  
+
 /* Stylish Strip */
 .action-strip {
     display: none; 

@@ -51,3 +51,16 @@
 .no-border{
     border: 0;
 }
+
+.swal2-title{
+    color:#007bff;
+}
+
+.swal2-input::placeholder{
+    color: rgba(0, 0, 0, 0.555);
+}
+
+.swal2-validation-message{
+    border-radius: 100px;
+    background-color: #e440234f;
+}
